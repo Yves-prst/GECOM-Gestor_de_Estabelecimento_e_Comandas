@@ -1,1 +1,1 @@
-# GECOM---Gestor-de-Estabelecimento-e-Comandas
+# GECOM - Gestor de Estabelecimento e Comandas
