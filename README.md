@@ -1,7 +1,7 @@
 # GECOM - Gestor de Estabelecimento e Comandas
 TCC Curso Técnico em Informática - IFPR Campus Pinhais 2025
 
-# 🍽️ GECOM – Sistema de Gerenciamento de Comandas
+# 🍽️ GECOM – Gestor de Estabelecimento e Comandas
 
 *GECOM* é um sistema de gerenciamento de comandas que auxilia o atendimento em restaurantes e similares. Ele agiliza o registro de pedidos, facilita a divisão de contas e otimiza a gestão do estabelecimento. Com funcionalidades como cadastro de produtos, fechamento de venda diária e mais, o sistema de comandas melhora a agilidade do atendente e aumenta a eficiência do serviço. 
 
