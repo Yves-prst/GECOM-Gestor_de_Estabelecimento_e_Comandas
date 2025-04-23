@@ -65,19 +65,19 @@ Estilos:
 🧩 Ícones
 Os ícones são utilizados para representar ações principais do sistema:
 
-➕ Adicionar
-🗑️ Excluir
-🖉 Editar
-🖨️ Imprimir
-✔️ Confirmar
-❌ Cancelar
+- ➕ Adicionar
+- 🗑️ Excluir
+- 🖉 Editar 
+- 🖨️ Imprimir
+- ✔️ Confirmar
+- ❌ Cancelar
 
 ---
 
 📝 Elementos de Formulário
-Campo de texto: "Cdg ou Nome do produto"
-Campo de data: Date Picker com ícone de calendário
-Botão de envio: "Click Me" (cinza) 
+- Campo de texto: "Cdg ou Nome do produto"
+- Campo de data: Date Picker com ícone de calendário 
+- Botão de envio: "Click Me" (cinza) 
 
 ---
 
