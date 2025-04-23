@@ -53,9 +53,12 @@ Estilos:
 ---
 
 🔘 Botões
-Botão Azul (Primário): Click Me - Fundo #1e90ff
-Botão Verde (Ação): Save - Fundo #28a745
-Botão Cinza: Click Me - Fundo cinza claro
+
+| Cor | Código| Ação |
+|----------------|----------------------|-------------|
+| Azul | #1e90ff | Click Me |
+| Verde | #28a745 | Click Me |
+| Cinza | #e0e0e0 | Click Me |
 
 ---
 
