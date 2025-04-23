@@ -81,7 +81,7 @@ Botão de envio: "Click Me" (cinza)
 
 ---
 
-[CLIQUE AQUI PARA VISUALIZAR NO QUANT-UX] (https://app.quant-ux.com/#/test.html?h=a2aa10azKqqzmyWnjdJpXTTzO5ByOJ6ozH514MEhvakLpQVYmN87AfBn26uC&ln=pt) 
+[CLIQUE AQUI PARA VISUALIZAR NO QUANT-UX](https://app.quant-ux.com/#/test.html?h=a2aa10azKqqzmyWnjdJpXTTzO5ByOJ6ozH514MEhvakLpQVYmN87AfBn26uC&ln=pt). 
 
 ---
 
