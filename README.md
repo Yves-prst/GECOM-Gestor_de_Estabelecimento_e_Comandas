@@ -21,15 +21,60 @@ O GECOM (Gestor de Estabelecimento e Comandas) é um sistema pensado para **rest
 
 ## 🎨 Identidade Visual
 
-*Paleta de Cores – Maré Noturna:*
+🎨 Paleta de Cores
+| Cor | Hexadecimal |
+|-----|-------------|
+| Cinza Claro 1 | #c9c9c9 |
+| Cinza Claro 2 | #d3d3d3 |
+| Cinza Claro 3 | #e0e0e0 |
+| Branco | #f7f7f7 |
+| Roxo | #342296 |
+| Azul | #1e90ff |
+| Azul Claro | #0d94c9 |
+| Verde Escuro | #00866f |
+| Verde | #28a745 |
+| Vermelho | #af2108 |
 
-| Cor           | Código Hex |
-|---------------|------------|
-| Azul Petróleo Profundo     | #021B33  |
-| Azul Céu Profundo   | #12577B  |
-| Branco Neve  | #F7F7F7  |
-| Azul Bebê Claro | #A9CFE5  |
+---
 
+🅰️ Tipografia
+Fonte principal: Arial
+Fontes secundárias: Helvetica, Sans-Serif
+
+Estilos:
+
+| Elemento        | Fonte                | Tamanho     | Estilo         |
+|----------------|----------------------|-------------|----------------|
+| H1           | Arial Bold           | 32px        | Negrito        |
+| H2/H3/etc.   | Arial                | 20px        | Padrão         |
+| Texto normal   | Arial            | 16px        | Padrão         |
+| Botões         | Arial        | 16px        | Padrão       |
+
+---
+
+🔘 Botões
+Botão Azul (Primário): Click Me - Fundo #1e90ff
+Botão Verde (Ação): Save - Fundo #28a745
+Botão Cinza: Click Me - Fundo cinza claro
+
+---
+
+🧩 Ícones
+Os ícones são utilizados para representar ações principais do sistema:
+
+➕ Adicionar
+🗑️ Excluir
+🖉 Editar
+🖨️ Imprimir
+✔️ Confirmar
+❌ Cancelar
+
+---
+
+📝 Elementos de Formulário
+Campo de texto: "Cdg ou Nome do produto"
+Campo de data: Date Picker com ícone de calendário
+Botão de envio: "Click Me" (cinza) 
 
 ---
 
