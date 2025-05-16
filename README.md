@@ -160,3 +160,10 @@ As alterações são sincronizadas em tempo real entre os dispositivos.
 | R7           | Problemas na sincronização entre dispositivos (RNE08)                                   | Alta             | Alto        | Implementar WebSocket ou mecanismo de sincronização em tempo real confiável          | Em desenvolvimento       |
 | R8           | Cadastro incorreto de produtos ou comandas (REF01, REF02, RNE03)                        | Baixa             | Médio       | Validação de entrada e alertas de erro visuais                                        | Em análise               |
 
+---
+
+Diagrama de casos e uso:
+
+https://www.mermaidchart.com/raw/1dcacddf-3cce-4422-af16-1faac19c84db?theme=light&version=v0.1&format=svg 
+
+---
