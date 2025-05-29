@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    list-style-type: none;
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%; 
+    
+}
+
+table th,
+table td {
+    padding: 12px 15px;
+    border: #e0e0e0 1px solid;
+    text-align: left;
+    
+}
+
+table th {
+    background-color: #c9c9c9;
+    color: #000;
+    font-weight: unset;
+}
+
+table td i {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+form {
+    margin-bottom: 30px;
+    
+}
+
+input,
+select {
+    padding-left: 10px;
+    border-radius: 10px;
+    border: #000 1px solid;
+    margin-top: 10px;
+    height: 40px;
+}
+
+.btn {
+    padding: 5px 10px;
+    background-color: dodgerblue;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 120px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.btn-edit {
+    background-color: orange;
+}
+
