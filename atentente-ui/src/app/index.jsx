@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import {
-  View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Alert, StatusBar 
+  View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Alert, StatusBar, Keyboard, Platform
 } from 'react-native';
 
 import { router } from 'expo-router';
@@ -9,11 +9,17 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { usePathname } from 'expo-router';
+
 
 export default function App() {
 
   function goToComandasPagas() {
     router.navigate("./comandasPagas")
+  }
+
+  function goToOutrasComandas() {
+    router.navigate("./comandasOutros")
   }
 
   const [productCode, setProductCode] = useState(''); // Código do produto digitado
@@ -24,6 +30,10 @@ export default function App() {
   const [showAdicionais, setShowAdicionais] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [selectedAdicionais, setSelectedAdicionais] = useState([]);
+  const [adicionaisAtuais, setAdicionaisAtuais] = useState([]);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const pathname = usePathname();
+
 
 
   const productsData = {
@@ -55,10 +65,6 @@ export default function App() {
     25: { name: "Garrafa 1l", price: 18 },
     26: { name: "Garrafa 2l", price: 28 },
     27: { name: "Suco Natural de Laranja", price: 13.50 },
-    28: { name: "Limão", price: 0 },
-    29: { name: "Abacaxi", price: 0 },
-    30: { name: "Gengibre", price: 0 },
-    31: { name: "Maracujá", price: 0 },
     32: { name: "Tapioca de Carne Bovina Especial", price: 24.50 },
     33: { name: "Coco Verde Gelado", price: 10.50 },
     34: { name: "Garrafa Coco", price: 12 },
@@ -97,6 +103,28 @@ export default function App() {
     };
 
     loadComandas();
+  }, []);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
+
+    // Limpeza dos listeners ao desmontar
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
   }, []);
 
 
@@ -244,15 +272,37 @@ export default function App() {
     { name: "Sem Tomate", price: 0 },
     { name: "Sem orégano", price: 0 },
     { name: "Sem orapronóbis", price: 0 },
-    { name: "Sem Gelo", price: 0 },
     { name: "Para Viagem", price: 0 }
   ];
 
+  const sabores = [
+    { name: "Limão", price: 0 },
+    { name: "Abacaxi", price: 0 },
+    { name: "Gengibre", price: 0 },
+    { name: "Maracujá", price: 0 },
+    { name: "Sem Gelo", price: 0 }
+
+  ]
+
   const abrirAdicionais = (index) => {
+    const nome = currentComanda[index].name.toLowerCase();
+
+    // Verifica se o nome contém "copo" ou "garrafa"
+    if (nome.includes('copo') || nome.includes('garrafa')) {
+      setAdicionaisAtuais(sabores); // usa a lista de sabores
+    } else {
+      setAdicionaisAtuais(adicionaisDisponiveis); // usa adicionais padrão
+    }
+
     setSelectedItemIndex(index);
     setSelectedAdicionais([]);
     setShowAdicionais(true);
   };
+
+
+  const closeAdicionais = () => {
+    setShowAdicionais(false);
+  }
 
   const toggleAdicional = (adicional) => {
     const jaSelecionado = selectedAdicionais.find(a => a.name === adicional.name);
@@ -279,157 +329,198 @@ export default function App() {
 
 
   return (
+    <View style={styles.main}>
 
-    <ScrollView style={styles.container}>
-      <StatusBar
-        barStyle="light-content" // ou "dark-content"
-        backgroundColor="#000" // cor de fundo da status bar (Android)
-      />
-
-      <Text style={styles.title}>Comandas</Text>
-
-      <View style={styles.adicionado}>
-
-        {currentComanda.map((item, index) => (
-
-          <View key={index} style={styles.item}>
-
-            <Text>{item.name} - R${item.price.toFixed(2)}</Text>
-
-            <View style={{ flexDirection: 'row', gap: 10, }}>
-
-              <TouchableOpacity style={styles.buttonAdd} onPress={() => abrirAdicionais(index)}>
-                <FontAwesome name="plus" size={24} color="green" />
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.buttonAdd} onPress={() => deleteLinha(index)}>
-                <FontAwesome name="close" size={24} color="black" />
-              </TouchableOpacity>
-
-            </View>
-
-          </View>
-        ))}
-
-        {showAdicionais && (
-          <View style={styles.modalContainer}>
-  <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center', marginBottom: 5 }}>
-    Selecione Adicionais
-  </Text>
-
-  <View style={{ maxHeight: 200 }}> {/* altura máxima da lista */}
-    <ScrollView>
-      {adicionaisDisponiveis.map((ad, i) => (
-        <TouchableOpacity
-          key={i}
-          style={styles.adicionalOption}
-          onPress={() => toggleAdicional(ad)}
-        >
-          <Text style={{ color: selectedAdicionais.find(a => a.name === ad.name) ? 'blue' : 'black', marginBottom: 2, marginTop: 5 }}>
-            {ad.name} (+R${ad.price.toFixed(2)})
-          </Text>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
-  </View>
-
-  <TouchableOpacity onPress={confirmarAdicionais} style={styles.confirmAdicionalButton}>
-    <Text style={styles.confirmExtras}>Confirmar</Text>
-  </TouchableOpacity>
-</View>
-
-        )}
-
-      </View>
-
-      <View style={styles.inputRow}>
-
-        <TextInput
-
-          style={styles.input}
-          placeholder="Código do Produto"
-          keyboardType="numeric"
-          value={productCode}
-          onChangeText={setProductCode}
-
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 60 }}>
+        <StatusBar
+          barStyle="light-content" // ou "dark-content"
+          backgroundColor="#000" // cor de fundo da status bar (Android)
         />
 
-        <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={addProduct}>
+        <Text style={styles.title}>Comandas</Text>
 
-          <Text>Adicionar</Text>
+        <View style={styles.adicionado}>
 
-        </TouchableOpacity>
+          {currentComanda.map((item, index) => (
+            <View key={index} style={styles.item}>
+              <View style={styles.textoContainer}>
+                <Text style={styles.textoProduto}>
+                  {item.name} - R${item.price.toFixed(2)}
+                </Text>
+              </View>
 
-      </View>
+              <View style={styles.botoesContainer}>
+                <TouchableOpacity style={styles.buttonAdd} onPress={() => abrirAdicionais(index)}>
+                  <FontAwesome name="plus" size={24} color="green" />
+                </TouchableOpacity>
 
-      <View style={styles.buttons}>
-
-        <TouchableOpacity activeOpacity={0.8} style={styles.confirmButton} onPress={confirmComanda}>
-
-          <Text style={{ color: '#fff' }}>Confirmar Comanda</Text>
-
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={0.8} style={styles.pagasButton} onPress={goToComandasPagas}>
-
-          <Text style={{ color: '#fff' }}>Comandas Pagas</Text>
-
-        </TouchableOpacity>
-
-      </View>
-
-      <View style={styles.historico}>
-
-        {comandas.map((cmd, idx) => (
-
-          <View key={idx} style={styles.comandaBox}>
-
-            <View style={styles.menuIcons}>
-
-              <TouchableOpacity style={styles.buttonMenu}>
-                <FontAwesome5 name="print" size={20} color="black" />
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.buttonMenu} onPress={() => editarComanda(idx)}>
-                <FontAwesome5 name="pen" size={20} color="black" />
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.buttonMenu} onPress={() => enviarItem(idx)}>
-                <FontAwesome5 name="check" size={20} color="black" regular />
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.buttonMenu} onPress={() => excluirComanda(idx)}>
-                <FontAwesome5 name="trash" size={20} color="black" regular />
-              </TouchableOpacity>
-
+                <TouchableOpacity style={styles.buttonAdd} onPress={() => deleteLinha(index)}>
+                  <FontAwesome name="close" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
             </View>
 
-            <Text style={styles.comandaTitle}>{cmd.title}</Text>
+          ))}
 
-            {cmd.items.map((item, i) => (
-              <Text key={i}>- {item.name} (R${item.price.toFixed(2)})</Text>
-            ))}
+          {showAdicionais && (
+            <View style={styles.modalContainer}>
 
-            <View style={styles.divider} />
+              <View style={styles.addTop}>
 
-            <Text style={{ fontWeight: 'bold' }}>Total: R${cmd.total.toFixed(2)}</Text>
+                <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center', marginBottom: 5 }}>
+                  Selecione Adicionais
+                </Text>
 
-          </View>
-        ))}
+                <TouchableOpacity style={styles.buttonAdd} onPress={() => closeAdicionais()}>
+                  <FontAwesome name="close" size={24} color="black" />
+                </TouchableOpacity>
 
-      </View>
+              </View>
 
-    </ScrollView>
+
+              <View style={{ maxHeight: 200 }}> {/* altura máxima da lista */}
+                <ScrollView>
+                  {adicionaisAtuais.map((ad, i) => (
+                    <TouchableOpacity
+                      key={i}
+                      style={styles.adicionalOption}
+                      onPress={() => toggleAdicional(ad)}
+                    >
+                      <Text style={{ color: selectedAdicionais.find(a => a.name === ad.name) ? 'blue' : 'black', marginBottom: 2, marginTop: 5 }}>
+                        {ad.name} (+R${ad.price.toFixed(2)})
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+
+                </ScrollView>
+              </View>
+
+              <TouchableOpacity onPress={confirmarAdicionais} style={styles.confirmAdicionalButton}>
+                <Text style={styles.confirmExtras}>Confirmar</Text>
+              </TouchableOpacity>
+            </View>
+
+          )}
+
+        </View>
+
+        <View style={styles.inputRow}>
+
+          <TextInput
+
+            style={styles.input}
+            placeholder="Código do Produto"
+            keyboardType="numeric"
+            value={productCode}
+            onChangeText={setProductCode}
+
+          />
+
+          <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={addProduct}>
+
+            <Text>Adicionar</Text>
+
+          </TouchableOpacity>
+
+        </View>
+
+        <View style={styles.buttons}>
+
+          <TouchableOpacity activeOpacity={0.8} style={styles.confirmButton} onPress={confirmComanda}>
+
+            <Text style={{ color: '#fff' }}>Confirmar Comanda</Text>
+
+          </TouchableOpacity>
+
+        </View>
+
+        <View style={styles.historico}>
+
+          {comandas.map((cmd, idx) => (
+
+            <View key={idx} style={styles.comandaBox}>
+
+              <View style={styles.menuIcons}>
+
+                <TouchableOpacity style={styles.buttonMenu}>
+                  <FontAwesome5 name="print" size={20} color="black" />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.buttonMenu} onPress={() => editarComanda(idx)}>
+                  <FontAwesome5 name="pen" size={20} color="black" />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.buttonMenu} onPress={() => enviarItem(idx)}>
+                  <FontAwesome5 name="check" size={20} color="black" regular />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.buttonMenu} onPress={() => excluirComanda(idx)}>
+                  <FontAwesome5 name="trash" size={20} color="black" regular />
+                </TouchableOpacity>
+
+              </View>
+
+              <Text style={styles.comandaTitle}>{cmd.title}</Text>
+
+              {cmd.items.map((item, i) => (
+                <Text key={i}>- {item.name} (R${item.price.toFixed(2)})</Text>
+              ))}
+
+              <View style={styles.divider} />
+
+              <Text style={{ fontWeight: 'bold' }}>Total: R${cmd.total.toFixed(2)}</Text>
+
+            </View>
+          ))}
+
+        </View>
+
+      </ScrollView>
+
+      {!keyboardVisible && (
+        <View style={styles.menuContainer}>
+          <TouchableOpacity style={styles.menuButton} >
+            <FontAwesome5
+              name="home"
+              size={20}
+              color={pathname === '/' ? '#fff' : '#000'}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuButton} onPress={goToComandasPagas}>
+            <FontAwesome5
+              name="check-circle"
+              size={20}
+              color={pathname === '/comandasPagas' ? '#fff' : '#000'}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuButton} onPress={goToOutrasComandas}>
+            <FontAwesome5
+              name="user-check"
+              size={20}
+              color={pathname === '/usuarios' ? '#fff' : '#000'}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
+
+    </View>
 
   );
 }
 
 const styles = StyleSheet.create({
 
+  main: {
+    flex: 1,
+
+  },
+
   container: {
     backgroundColor: '#f5f5f5',
     padding: 20,
-
+    height: '85%'
   },
 
   title: {
@@ -455,7 +546,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: '#ddd',
+    backgroundColor: '#bdbdbd',
     padding: 10,
     borderRadius: 5
   },
@@ -465,7 +556,7 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    backgroundColor: 'lightgray',
+    backgroundColor: '#bdbdbd',
     padding: 5,
     marginBottom: 5,
     borderRadius: 5,
@@ -481,7 +572,7 @@ const styles = StyleSheet.create({
 
   modalContainer: {
     backgroundColor: '#fff',
-    padding: 20,
+    padding: 15,
     borderRadius: 10,
     elevation: 10,
     zIndex: 10,
@@ -489,39 +580,66 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
+  item: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    backgroundColor: '#eee',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    gap: 10,
+
+  },
+
+  textoContainer: {
+    flex: 1,
+  },
+
+  textoProduto: {
+    flexWrap: 'wrap',
+  },
+
+  botoesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    gap: 10,
+  },
+
+  addTop: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 3,
+    alignItems: 'center'
+  },
+
   confirmExtras: {
-    backgroundColor: 'lightgray',
+    backgroundColor: '#bdbdbd',
     color: 'black',
     borderRadius: 5,
     padding: 15,
     textAlign: 'center',
     marginTop: 10,
     width: '100%',
-    
+
   },
 
   confirmButton: {
-    backgroundColor: 'forestgreen',
+    backgroundColor: 'dodgerblue',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
     marginTop: 15,
   },
 
-  pagasButton: {
-    backgroundColor: 'dodgerblue',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center'
-  },
-
   historico: {
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 30,
   },
 
   comandaBox: {
-    backgroundColor: 'lightgray',
+    backgroundColor: '#bdbdbd',
     padding: 10,
     marginBottom: 10,
     borderRadius: 10
@@ -537,7 +655,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 10,
-    
+
   },
 
   buttonMenu: {
@@ -547,16 +665,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  buttonAdd:{
-    height: 30,
+  buttonAdd: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 5, 
+    marginRight: 5,
+    gap: 5
   },
 
   divider: {
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     marginVertical: 10,
+  },
+
+  menuContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: 'dodgerblue',
+    height: 60,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 20,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15
+  },
+
+  menuButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    width: '30%'
   },
 });

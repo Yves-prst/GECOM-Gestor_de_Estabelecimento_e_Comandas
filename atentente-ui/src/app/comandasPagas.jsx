@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Button, Alert, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+    View, Text, FlatList, StyleSheet, Alert,
+    TouchableOpacity, ScrollView, SafeAreaView, Platform, KeyboardAvoidingView
+} from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { usePathname } from 'expo-router';
 
 const ComandasPagas = () => {
+
+    function goToHome() {
+        router.navigate("./")
+    }
+
+    function goToOutrasComandas() {
+        router.navigate("./comandasOutros")
+    }
+
     const [comandasPagas, setComandasPagas] = useState([]);
     const [totalGeral, setTotalGeral] = useState(0);
+    const pathname = usePathname();
 
     useEffect(() => {
         carregarComandasPagas();
@@ -18,7 +33,6 @@ const ComandasPagas = () => {
             if (saved) {
                 const lista = JSON.parse(saved);
                 setComandasPagas(lista);
-
                 const total = lista.reduce((soma, item) => soma + item.total, 0);
                 setTotalGeral(total);
             }
@@ -32,10 +46,7 @@ const ComandasPagas = () => {
             'Confirmar',
             'Deseja apagar todas as comandas pagas?',
             [
-                {
-                    text: 'Cancelar',
-                    style: 'cancel'
-                },
+                { text: 'Cancelar', style: 'cancel' },
                 {
                     text: 'Zerar',
                     style: 'destructive',
@@ -54,52 +65,93 @@ const ComandasPagas = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={{ flex: 1 }}>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            >
+                <View style={styles.main}>
+                    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
 
-            <Text onPress={() => router.back()} activeOpacity={0.8} style={{ color: '#000', fontSize: 20, }}>Voltar</Text>
+                        <Text style={styles.titulo}>Comandas Pagas</Text>
+                        <Text style={styles.total}>Total Geral: R$ {totalGeral.toFixed(2)}</Text>
 
-            <Text style={{ textAlign: 'center', fontSize: 24, fontWeight: 'bold' }}>Comandas Pagas</Text>
+                        <TouchableOpacity style={styles.clearButton} onPress={zerarComandas}>
+                            <Text style={{ color: '#fff' }}>Apagar</Text>
+                        </TouchableOpacity>
 
-            <Text style={styles.total}>Total Geral: R$ {totalGeral.toFixed(2)}</Text>
-
-            <TouchableOpacity style={styles.clearButton} onPress={zerarComandas}>
-                <Text style={{ color: '#fff' }} >Apagar</Text>
-            </TouchableOpacity>
-
-            <FlatList
-                data={comandasPagas}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                    <View style={styles.item}>
-                        <Text style={styles.title}>{item.title}</Text>
                         <FlatList
-                            data={item.items}
-                            keyExtractor={(subItem, subIndex) => subIndex.toString()}
-                            renderItem={({ item: subItem }) => (
-                                <Text>{subItem.name} - R$ {subItem.price.toFixed(2)}</Text>
+                            data={comandasPagas}
+                            keyExtractor={(item, index) => index.toString()}
+                            scrollEnabled={false} // importante para evitar conflito com ScrollView
+                            renderItem={({ item }) => (
+                                <View style={styles.item}>
+                                    <Text style={styles.title}>{item.title}</Text>
+                                    <FlatList
+                                        data={item.items}
+                                        keyExtractor={(subItem, subIndex) => subIndex.toString()}
+                                        scrollEnabled={false}
+                                        renderItem={({ item: subItem }) => (
+                                            <Text>{subItem.name} - R$ {subItem.price.toFixed(2)}</Text>
+                                        )}
+                                    />
+                                    <View style={styles.divider} />
+                                    <Text>Total: R$ {item.total.toFixed(2)}</Text>
+                                </View>
                             )}
                         />
-                        <View style={styles.divider} />
-                        <Text>Total: R$ {item.total.toFixed(2)}</Text>
+                    </ScrollView>
+
+                    <View style={styles.menuContainer}>
+                        <TouchableOpacity style={styles.menuButton} onPress={goToHome}>
+                            <FontAwesome5
+                                name="home"
+                                size={20}
+                                color={pathname === '/' ? '#fff' : '#000'}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.menuButton}>
+                            <FontAwesome5
+                                name="check-circle"
+                                size={20}
+                                color={pathname === '/comandasPagas' ? '#fff' : '#000'}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.menuButton} onPress={goToOutrasComandas}>
+                            <FontAwesome5
+                                name="user-check"
+                                size={20}
+                                color={pathname === '/usuarios' ? '#fff' : '#000'}
+                            />
+                        </TouchableOpacity>
                     </View>
-                )}
-            />
-        </View>
+                </View>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 };
 
 export default ComandasPagas;
 
 const styles = StyleSheet.create({
-    container: {
+
+    main: {
         flex: 1,
-        padding: 20,
-        backgroundColor: '#fff'
+        backgroundColor: '#f5f5f5'
     },
 
-    title: {
-        fontSize: 18,
+    container: {
+        padding: 20,
+        backgroundColor: '#f5f5f5'
+    },
+
+    titulo: {
+        textAlign: 'center',
+        fontSize: 24,
         fontWeight: 'bold',
+        marginBottom: 10,
     },
 
     total: {
@@ -111,20 +163,15 @@ const styles = StyleSheet.create({
     },
 
     item: {
-        backgroundColor: 'lightgray',
+        backgroundColor: '#bdbdbd',
         padding: 10,
         marginBottom: 10,
         borderRadius: 10
     },
 
-    voltarButton: {
-        width: 120,
-        height: 55,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        marginBottom: 12,
-        padding: 15
+    title: {
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 
     clearButton: {
@@ -140,5 +187,28 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         marginVertical: 10,
+    },
+
+    menuContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        backgroundColor: 'red',
+        height: 60,
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        paddingHorizontal: 20,
+        borderTopLeftRadius: 15,
+        backgroundColor: 'dodgerblue',
+        borderTopRightRadius: 15
+    },
+
+    menuButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        width: '30%'
     },
 });
