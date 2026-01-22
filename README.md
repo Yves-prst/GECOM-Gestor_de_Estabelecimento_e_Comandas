@@ -131,10 +131,19 @@ Essa estrutura garante integridade, organização e suporte a relatórios admini
 - Visual Studio Code
 
 ### Execução
-- Sistema administrativo acessado via navegador
-- Aplicação mobile executada via Expo
-- KDS exibido em navegador ou monitor dedicado
-- Todos os dispositivos conectados à mesma rede
+1. Iniciar os serviços **Apache** e **MySQL**
+2. Importar o banco de dados no MySQL
+3. Executar o sistema **Web Administrativo** via navegador
+4. Iniciar o backend do aplicativo mobile (Node.js):
+   ```bash
+   node server
+5. Executar o aplicativo mobile via Expo:
+   ```bash
+   npx expo start
+6. Acessar o aplicativo mobile por meio do Expo Web (navegador)
+7. Acessar o KDS (Kitchen Display System) em navegador dedicado
+
+Todos os módulos devem estar conectados à mesma rede.
 
 ---
 
