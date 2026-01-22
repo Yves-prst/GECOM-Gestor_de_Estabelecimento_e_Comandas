@@ -1,169 +1,197 @@
-# GECOM - Gestor de Estabelecimento e Comandas
-TCC Curso Técnico em Informática - IFPR Campus Pinhais 2025
+# GECOM – Gestor de Estabelecimento e Comandas
 
-# 🍽️ GECOM – Gestor de Estabelecimento e Comandas
-
-*GECOM* é um sistema de gerenciamento de comandas que auxilia o atendimento em restaurantes e similares. Ele agiliza o registro de pedidos, facilita a divisão de contas e otimiza a gestão do estabelecimento. Com funcionalidades como cadastro de produtos, fechamento de venda diária e mais, o sistema de comandas melhora a agilidade do atendente e aumenta a eficiência do serviço. 
-
----
-
-## 🚀 O que é o GECOM?
-
-O GECOM (Gestor de Estabelecimento e Comandas) é um sistema pensado para **restaurantes, bares, lanchonetes e similares**, com o objetivo de:
-
-- Agilizar o registro de pedidos
-- Organizar o fechamento de contas
-- Dividir pagamentos de forma prática
-- Gerenciar produtos e usuários
-- Otimizar a rotina do estabelecimento como um todo
+Trabalho de Conclusão de Curso – Técnico em Informática  
+Instituto Federal do Paraná – Campus Pinhais  
+Ano: 2025
 
 ---
 
-## 🎨 Identidade Visual
+## 📌 Sobre o Projeto
 
-Paleta de Cores
-| Cor | Hexadecimal |
-|-----|-------------|
-| Cinza Claro 1 | #c9c9c9 |
-| Cinza Claro 2 | #d3d3d3 |
-| Cinza Claro 3 | #e0e0e0 |
-| Branco | #f7f7f7 |
-| Roxo | #342296 |
-| Azul | #1e90ff |
-| Azul Claro | #0d94c9 |
-| Verde Escuro | #00866f |
-| Verde | #28a745 |
-| Vermelho | #af2108 |
+O **GECOM (Gestor de Estabelecimento e Comandas)** é um sistema integrado desenvolvido para auxiliar restaurantes de pequeno e médio porte no gerenciamento de comandas, pedidos e operações administrativas.
+
+O sistema foi criado para substituir processos manuais, como comandas de papel, reduzindo falhas de comunicação entre atendimento e cozinha, otimizando o fluxo de trabalho e oferecendo maior controle administrativo.
+
+O projeto é composto por **três módulos integrados**, que se comunicam por meio de uma API e um banco de dados centralizado.
 
 ---
 
-🅰️ Tipografia
-Fonte principal: Arial
-Fontes secundárias: Helvetica, Sans-Serif
+## 🎯 Objetivo
 
-Estilos:
+Desenvolver um sistema integrado de gerenciamento de comandas que:
 
-| Elemento        | Fonte                | Tamanho     | Estilo         |
-|----------------|----------------------|-------------|----------------|
-| H1           | Arial Bold           | 32px        | Negrito        |
-| H2/H3/etc.   | Arial                | 20px        | Padrão         |
-| Texto normal   | Arial            | 16px        | Padrão         |
-| Botões         | Arial        | 16px        | Padrão       |
+- Otimize o fluxo de atendimento
+- Reduza erros operacionais
+- Melhore a comunicação entre salão, cozinha e administração
+- Forneça dados confiáveis para gestão e tomada de decisão
 
 ---
 
-🔘 Botões
+## 🧩 Estrutura do Sistema
 
-| Cor | Código| Ação |
-|----------------|----------------------|-------------|
-| Azul | #1e90ff | Click Me |
-| Verde | #28a745 | Click Me |
-| Cinza | #e0e0e0 | Click Me |
+O GECOM é dividido em três módulos principais:
 
----
+### 1. Sistema Administrativo (Web)
 
-🧩 Ícones
-Os ícones são utilizados para representar ações principais do sistema:
+Módulo voltado à gestão do estabelecimento.
 
-- ➕ Adicionar
-- 🗑️ Excluir
-- 🖉 Editar 
-- 🖨️ Imprimir
-- ✔️ Confirmar
-- ❌ Cancelar
+**Funcionalidades:**
+- Cadastro e gerenciamento de produtos
+- Gerenciamento de categorias e adicionais
+- Cadastro de funcionários e controle de permissões
+- Gerenciamento de mesas
+- Relatórios de vendas (diários, semanais e mensais)
+- Acompanhamento de metas e indicadores
 
----
-
-📝 Elementos de Formulário
-- Campo de texto: "Cdg ou Nome do produto"
-- Campo de data: Date Picker com ícone de calendário 
-- Botão de envio: "Click Me" (cinza) 
+**Tecnologias:**
+- HTML
+- CSS
+- JavaScript
+- PHP
+- MySQL
 
 ---
 
-[CLIQUE AQUI PARA VISUALIZAR NO QUANT-UX](https://app.quant-ux.com/#/test.html?h=a2aa10azKqqzmyWnjdJpXTTzO5ByOJ6ozH514MEhvakLpQVYmN87AfBn26uC&ln=pt). 
+### 2. Sistema Mobile – Garçom
+
+Aplicação utilizada pelos garçons para o atendimento direto ao cliente.
+
+**Funcionalidades:**
+- Autenticação de usuários
+- Abertura de comandas por mesa
+- Registro de pedidos com adicionais
+- Envio automático dos pedidos
+- Acompanhamento do status do pedido
+- Encerramento de comandas
+
+**Tecnologias:**
+- React Native
+- JavaScript
+- Node.js
+- Express
+- Axios
+- Expo
 
 ---
 
-## 📦 Escopo do Produto
+### 3. Visor da Cozinha (KDS)
 
-Funcionalidades Principais:
+Módulo responsável pela exibição dos pedidos na cozinha.
 
-- ✅ Cadastro de produtos (nome, preço e categoria)
-- ✅ Criação de comandas por cliente ou mesa
-- ✅ Registro e edição de pedidos em tempo real
-- ✅ Cálculo automático de totais (e divisão entre clientes)
-- ✅ Geração de relatório diário de vendas 💰
-- ✅ Login individual de atendentes
-- ✅ Histórico e status de comandas
+**Funcionalidades:**
+- Recebimento automático dos pedidos
+- Exibição organizada por status
+- Controle manual de andamento (novo, em preparo, pronto)
+- Atualização em tempo real
 
-Critérios de Aceite:
-
-- ✅ Compatível com desktops e dispositivos móveis 📱
-- ✅ Interface intuitiva, leve e rápida
-
----
-
-## 🎯 Públco Alvo
-
-- **Pessoas que trabalham em restaurantes e comércios alimentícios no geral**
+**Tecnologias:**
+- HTML
+- CSS
+- JavaScript
+- Node.js
 
 ---
 
-## 🔐 Controle de Acesso
+## 🔗 Integração entre os Módulos
 
-Cada usuário tem acesso somente ao que precisa:
+Os módulos se comunicam por meio de uma **API REST**, utilizando **JSON** como formato de troca de dados.
 
-- **Atendentes**: criam e editam comandas
-- **Cozinha**: visualiza pedidos em tempo real
-- **Gerência/Admins**: gerencia produtos, usuários e relatórios
-
----
-
-## ⚙️ Informações Técnicas
-
-- **Backend**: PHP
-- **Banco de Dados**: MySQL
-- **Frontend**: HTML, CSS e JavaScript
-- **Compatibilidade**: Windows, tablets e smartphones
+- O **banco de dados MySQL** centraliza todas as informações
+- O **Node.js** atua como intermediário na comunicação em tempo real
+- O sistema opera prioritariamente em **rede local**, garantindo estabilidade e baixo custo
 
 ---
 
-👥 Quem fez?
+## 🗄️ Banco de Dados
 
-Este projeto foi desenvolvido por:
+O banco de dados foi modelado de forma relacional e inclui tabelas como:
 
--**Igor Henrique dos Santos Borges** - **Desenvolvedor Full-Stack e documentação**
+- `users` – usuários e permissões
+- `categories` – categorias de produtos
+- `category_addons` – adicionais por categoria
+- `products` – produtos do cardápio
+- `mesas` – controle de mesas
+- `orders` – comandas
+- `order_items` – itens do pedido
+- `order_item_addons` – adicionais por item
+- `sales` – vendas realizadas
+- `goals` – metas financeiras
 
--**Yves Pereira dos Santos** - **Desenvolvedor Full-Stack e documentação**
-
----
-
-📌 Observações
-
-Produtos inativos não podem ser adicionados às comandas.
-
-As alterações são sincronizadas em tempo real entre os dispositivos.
-
----
-
-## ⚠ Matriz de Riscos
-
-| **Id Risco** | **Descrição do Risco**                                                                 | **Probabilidade** | **Impacto** | **Plano de Resposta**                                                                 | **Status do Risco**     |
-|--------------|------------------------------------------------------------------------------------------|-------------------|-------------|----------------------------------------------------------------------------------------|--------------------------|
-| R1           | Atraso na entrega das funcionalidades essenciais (REF01 a REF06)                        | Média             | Alto        | Priorizar funcionalidades principais, cronograma ágil com entregas incrementais       | Em monitoramento         |
-| R2           | Cálculos incorretos nas comandas (REF05, RNE05)                                         | Baixa             | Alto        | Testes automatizados, validação com dados reais e simulações de uso                   | Controlado       |
-| R3           | Falhas no controle de acesso e permissões (REF07, RNE02)                                | Média             | Alto        | Implementar autenticação segura e testes de nível de acesso                           | Em desenvolvimento               |
-| R4           | Problemas de visualização em dispositivos móveis (RNF06, REF09)                         | Baixa              | Médio       | Uso de design responsivo e testes com diferentes tamanhos de tela                     | Controlado              |
-| R5           | Baixa usabilidade da interface (RNF08, REF10)                                           | Média             | Médio       | Realizar testes com usuários e aplicar feedbacks de usabilidade                       | Em melhoria     |
-| R6           | Perda de dados por falha ou desligamento inesperado (RNF01, RNF02)                      | Alta             | Alto        | Implementar backups automáticos e recuperação de sessão                               | Controlado               |
-| R7           | Problemas na sincronização entre dispositivos (RNE08)                                   | Alta             | Alto        | Implementar WebSocket ou mecanismo de sincronização em tempo real confiável          | Em desenvolvimento       |
-| R8           | Cadastro incorreto de produtos ou comandas (REF01, REF02, RNE03)                        | Baixa             | Médio       | Validação de entrada e alertas de erro visuais                                        | Em análise               |
+Essa estrutura garante integridade, organização e suporte a relatórios administrativos.
 
 ---
 
-Diagrama de casos e uso:
+## ⚙️ Requisitos para Execução
 
-https://www.mermaidchart.com/raw/1dcacddf-3cce-4422-af16-1faac19c84db?theme=light&version=v0.1&format=svg 
+### Ambiente de Desenvolvimento
+- Windows
+- WampServer (Apache + PHP + MySQL)
+- Node.js
+- MySQL
+- Visual Studio Code
+
+### Execução
+- Sistema administrativo acessado via navegador
+- Aplicação mobile executada via Expo
+- KDS exibido em navegador ou monitor dedicado
+- Todos os dispositivos conectados à mesma rede
 
 ---
+
+## 📊 Resultados Obtidos
+
+Durante os testes realizados em ambiente real:
+
+- Redução média de **50% no tempo de atendimento**
+- Eliminação de erros de anotação manual
+- Fechamento de caixa reduzido de cerca de **30 minutos para poucos segundos**
+- Melhoria significativa na organização e comunicação interna
+
+---
+
+## 🚧 Limitações Identificadas
+
+- Dificuldades iniciais na sincronização entre app e sistema web
+- Dependência de rede local
+- Ausência de hospedagem em nuvem na versão atual
+
+---
+
+## 🔮 Trabalhos Futuros
+
+- Controle automatizado de estoque
+- Integração com meios de pagamento
+- Hospedagem em nuvem
+- Versão compatível com iOS
+- Dashboards gerenciais mais avançados
+
+---
+
+## 👨‍💻 Autores
+
+- **Igor Henrique dos Santos Borges**  
+  Desenvolvimento Full Stack e Documentação  
+
+- **Yves Pereira dos Santos**  
+  Desenvolvimento Full Stack e Documentação  
+
+---
+
+## 📄 Documentação
+
+A documentação completa do projeto está disponível na pasta: /Documentação
+
+
+Ela contém:
+- Fundamentação teórica
+- Metodologia
+- Modelagem do sistema
+- Avaliação prática
+- Resultados e conclusões
+
+---
+
+## 📎 Licença
+
+Projeto acadêmico desenvolvido como Trabalho de Conclusão de Curso.  
+
